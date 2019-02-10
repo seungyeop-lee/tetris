@@ -2,7 +2,7 @@
 
 ## 190210
 
-- [Tetris Game Using JavaScript](https://youtu.be/HEsAr2Yt2do)를 보면서 실제로 테트리스를 구현해 보았다. [(구현 코드)](../exmaple-tetris)
+- [Tetris Game Using JavaScript](https://youtu.be/HEsAr2Yt2do)를 보면서 실제로 테트리스를 구현해 보았다. [(구현 코드)](https://github.com/seungyeop-lee/tetris/tree/master/example-tetris)
 - 구현을 하면서 충돌판단, 회전, 줄 없애기, 블록 고정에 대한 구현방법에 대해 배울 수 있었다.
 
 ### 예제의 테트리스 코드 분석

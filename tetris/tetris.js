@@ -96,12 +96,84 @@ function drawSquare(x, y, color) {
 // 게임 맵 상태를 갱신한다.
 function updateMap(x, y, color) {
   if(color === VACANT) {
-    currentGameInfo.piecesMap[y][x]['located'] = false;
+    currentGameInfo.piecesMap[y][x].located = false;
   } else {
-    currentGameInfo.piecesMap[y][x]['located'] = true;
+    currentGameInfo.piecesMap[y][x].located = true;
   }
-  currentGameInfo.piecesMap[y][x]['color'] = color;
+  currentGameInfo.piecesMap[y][x].color = color;
 }
+
+//블록을 아래로 이동한다.
+Piece.prototype.moveDown = function() {
+  this.unDraw();
+  if(!this.isCollision(0, 1, this.activeTetromino)) {
+    this.y++;
+  }
+  this.draw();
+}
+
+//블록은 오른쪽으로 이동한다.
+Piece.prototype.moveRight = function() {
+  this.unDraw();
+  if(!this.isCollision(1, 0, this.activeTetromino)) {
+    this.x++;
+  }
+  this.draw();
+}
+
+//블록을 왼쪽으로 이동한다.
+Piece.prototype.moveLeft = function() {
+  this.unDraw();
+  if(!this.isCollision(-1, 0, this.activeTetromino)) {
+    this.x--;
+  }
+  this.draw();
+}
+
+//충돌여부를 판단한다.
+Piece.prototype.isCollision = function(x, y, piece) {
+  for(var row = 0; row < piece.length; row++) {
+    for(var col = 0; col < piece.length; col++) {
+      //블록의 빈부분은 계산하지 않는다.
+      if(piece[row][col] === 0) {
+        continue;
+      }
+
+      //x, y만큼 움직였을 때의 좌표 설정
+      var newX = this.x + col + x;
+      var newY = this.y + row + y;
+
+      //판넬을 넘어갈경우 확인(좌, 우, 아래)
+      if(newX < 0 || newX >= panelColume || newY >= panelRow) {
+        return true;
+      }
+
+      //판넬을 넘어갈경우 확인(위)
+      //위로 넘어갈 경우 GameOver이므로 일단은 패스
+      if(newY < 0) {
+        continue;
+      }
+
+      //이동하려는 좌표에 블록이 존재하는지 확인
+      if(currentGameInfo.piecesMap[newY][newX].located) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+document.addEventListener('keydown', function() {
+  if(event.keyCode == 37) {
+    p.moveLeft();
+  } else if(event.keyCode == 38)  {
+    // p.rotate();
+  } else if(event.keyCode == 39)  {
+    p.moveRight();
+  } else if(event.keyCode == 40)  {
+    p.moveDown();
+  }
+});
 
 function GameInfo() {
   this.piecesMap;
@@ -121,14 +193,11 @@ GameInfo.prototype.init = function(row, col) {
   this.piecesMap = piecesMap;
 }
 
-var row = 20;
-var colume = 10;
+var panelRow = 20;
+var panelColume = 10;
 var currentGameInfo = new GameInfo();
-currentGameInfo.init(row, colume);
-initDisplayGamePanel(colume, row);
+currentGameInfo.init(panelRow, panelColume);
+initDisplayGamePanel(panelColume, panelRow);
 
 var p = new Piece(pieces[0][0], pieces[0][1]);
 p.draw();
-debugger;
-p.unDraw();
-debugger;

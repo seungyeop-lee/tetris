@@ -41,7 +41,7 @@ function initDisplayGamePanel(xSize, ySize) {
   gamePanelStyle.border = '1px solid black';
   gamePanelStyle.borderCollapse = 'collapse';
   gamePanelStyle.height = '500px';
-  gamePanelStyle.width = '200px';
+  gamePanelStyle.width = '250px';
   gamePanel.id = 'game-panel';
   
   //화면에 추가
@@ -61,8 +61,8 @@ function Piece(tetromino, color) {
   this.tetrominoN = 0;
   this.activeTetromino = this.tetromino[this.tetrominoN];
 
-  this.x = 0;
-  this.y = 0;
+  this.x = panelColume/2-1;
+  this.y = -2;
 }
 
 // 블럭을 그린다.
@@ -89,12 +89,18 @@ Piece.prototype.update = function(color) {
 
 // 블럭을 화면에 표시한다.
 function drawSquare(x, y, color) {
+  if(y < 0) {
+    return;
+  }
   var cell = document.getElementsByClassName('row' + y)[0].getElementsByClassName('col' + x)[0];
   cell.style.backgroundColor = color;
 }
 
 // 게임 맵 상태를 갱신한다.
 function updateMap(x, y, color) {
+  if(y < 0) {
+    return;
+  }
   if(color === VACANT) {
     currentGameInfo.piecesMap[y][x].located = false;
   } else {
@@ -128,6 +134,52 @@ Piece.prototype.moveLeft = function() {
     this.x--;
   }
   this.draw();
+}
+
+//블록을 회전시킨다.
+Piece.prototype.rotate = function() {
+  var nextPattern = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
+  var kick = 0;
+
+  this.unDraw();
+
+  //회전했을 때 충돌 유무 판단
+  if(this.isCollision(0, 0, nextPattern)) {
+    if(this.x > panelColume/2) {
+      //패널의 오른쪽에 위치
+      kick = -1;  //블록을 왼쪽으로 한칸 옮긴다.
+    } else {
+      //패널의 왼쪽에 위치
+      kick = 1; //블록을 오른쪽으로 한칸 옮긴다.
+    }
+  }
+
+  if(!this.isCollision(kick, 0, nextPattern)) {
+    this.x += kick;
+    this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length;  // (0+1)%4 == 1
+    this.activeTetromino = this.tetromino[this.tetrominoN];
+  }
+  this.draw();
+}
+
+Piece.prototype.lock = function() {
+  for(var row = 0; row < this.activeTetromino.length; row++) {
+    for(var col = 0; col < this.activeTetromino.length; col++) {
+      //블록의 빈부분은 계산하지 않는다.
+      if(!this.activeTetromino[row][col]) {
+        continue;
+      }
+
+      //블록의 일부라도 위쪽 판넬을 넘어갈경우 확인
+      if(this.y + r < 0) {
+        //게임오버 관련 처리 수행
+        break;
+      }
+
+      //블록을 그 자리에 고정시킨다.
+      // board[this.y + row][this.x + col] = this.color;
+    }
+  }
 }
 
 //충돌여부를 판단한다.
@@ -167,7 +219,7 @@ document.addEventListener('keydown', function() {
   if(event.keyCode == 37) {
     p.moveLeft();
   } else if(event.keyCode == 38)  {
-    // p.rotate();
+    p.rotate();
   } else if(event.keyCode == 39)  {
     p.moveRight();
   } else if(event.keyCode == 40)  {
@@ -200,4 +252,11 @@ currentGameInfo.init(panelRow, panelColume);
 initDisplayGamePanel(panelColume, panelRow);
 
 var p = new Piece(pieces[0][0], pieces[0][1]);
-p.draw();
+
+function play() {
+  p.draw();
+  window.setInterval(function() {
+    p.moveDown();
+  }, 1000);
+}
+play();

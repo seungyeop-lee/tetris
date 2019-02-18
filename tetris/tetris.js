@@ -114,8 +114,18 @@ Piece.prototype.moveDown = function() {
   this.unDraw();
   if(!this.isCollision(0, 1, this.activeTetromino)) {
     this.y++;
+    this.draw();
+  } else {
+    this.lock();
+    if(gameOver) {
+      window.clearInterval(interval);
+      document.removeEventListener('keydown', keyboardEventHandler);
+      alert('Game Over!');
+    } else {
+      this.removeRow();
+      p = randomPiece();
+    }
   }
-  this.draw();
 }
 
 //블록은 오른쪽으로 이동한다.
@@ -134,6 +144,35 @@ Piece.prototype.moveLeft = function() {
     this.x--;
   }
   this.draw();
+}
+
+//다 채워진 행을 삭제한다.
+Piece.prototype.removeRow = function() {
+  var removedRowCount = 0;
+  for(r = 0; r < panelRow; r++) {
+    if(removedRowCount >= 4) {
+      return;
+    }
+    var isRowFull = true;
+    for(c = 0; c < panelColume; c++) {
+      isRowFull = isRowFull && (currentGameInfo.piecesMap[r][c].located);
+    }
+    if(isRowFull) {
+        // 모든 행을 한칸 아래로 이동시킨다.
+        for(y = r; y > 1; y--) {
+          for(c = 0; c < panelColume; c++) {
+            drawSquare(c, y, currentGameInfo.piecesMap[y-1][c].color);
+            updateMap(c, y, currentGameInfo.piecesMap[y-1][c].color);
+          }
+        }
+        // 가장 마지막 행은 빈칸으로 채운다.
+        for(c = 0; c < panelColume; c++) {
+          drawSquare(c, 0, VACANT);
+          updateMap(c, 0, VACANT);
+        }
+        removedRowCount++;
+    }
+  }
 }
 
 //블록을 회전시킨다.
@@ -162,6 +201,7 @@ Piece.prototype.rotate = function() {
   this.draw();
 }
 
+//블록을 고정시킨다.
 Piece.prototype.lock = function() {
   for(var row = 0; row < this.activeTetromino.length; row++) {
     for(var col = 0; col < this.activeTetromino.length; col++) {
@@ -169,15 +209,15 @@ Piece.prototype.lock = function() {
       if(!this.activeTetromino[row][col]) {
         continue;
       }
+      
+      //블록을 그 자리에 고정시킨다.
+      this.draw();
 
       //블록의 일부라도 위쪽 판넬을 넘어갈경우 확인
-      if(this.y + r < 0) {
-        //게임오버 관련 처리 수행
-        break;
+      if(this.y + row < 0) {
+        gameOver = true;
+        return;
       }
-
-      //블록을 그 자리에 고정시킨다.
-      // board[this.y + row][this.x + col] = this.color;
     }
   }
 }
@@ -215,17 +255,19 @@ Piece.prototype.isCollision = function(x, y, piece) {
   return false;
 }
 
-document.addEventListener('keydown', function() {
-  if(event.keyCode == 37) {
+function keyboardEventHandler(e) {
+  if(e.keyCode == 37) {
     p.moveLeft();
-  } else if(event.keyCode == 38)  {
+  } else if(e.keyCode == 38)  {
     p.rotate();
-  } else if(event.keyCode == 39)  {
+  } else if(e.keyCode == 39)  {
     p.moveRight();
-  } else if(event.keyCode == 40)  {
+  } else if(e.keyCode == 40)  {
     p.moveDown();
   }
-});
+}
+
+document.addEventListener('keydown', keyboardEventHandler);
 
 function GameInfo() {
   this.piecesMap;
@@ -245,17 +287,25 @@ GameInfo.prototype.init = function(row, col) {
   this.piecesMap = piecesMap;
 }
 
+// 랜덤하게 블럭을 생성
+function randomPiece() {
+  var r = Math.floor(Math.random() * pieces.length);  // 0 ~ 6
+  return new Piece(pieces[r][0], pieces[r][1]);
+}
+
 var panelRow = 20;
 var panelColume = 10;
 var currentGameInfo = new GameInfo();
 currentGameInfo.init(panelRow, panelColume);
 initDisplayGamePanel(panelColume, panelRow);
 
-var p = new Piece(pieces[0][0], pieces[0][1]);
+var p = randomPiece();
+var interval;
+var gameOver = false;
 
 function play() {
   p.draw();
-  window.setInterval(function() {
+  interval = window.setInterval(function() {
     p.moveDown();
   }, 1000);
 }

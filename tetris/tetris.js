@@ -109,6 +109,15 @@ function updateMap(x, y, color) {
   currentGameInfo.piecesMap[y][x].color = color;
 }
 
+//블록을 내려갈 수 있는 가장 아래로 이동한다.
+Piece.prototype.moveEndDown = function() {
+  this.unDraw();
+  while(!this.isCollision(0, 1, this.activeTetromino)) {
+    this.y++;
+  }
+  this.moveDown();
+}
+
 //블록을 아래로 이동한다.
 Piece.prototype.moveDown = function() {
   this.unDraw();
@@ -149,24 +158,24 @@ Piece.prototype.moveLeft = function() {
 //다 채워진 행을 삭제한다.
 Piece.prototype.removeRow = function() {
   var removedRowCount = 0;
-  for(r = 0; r < panelRow; r++) {
+  for(var r = 0; r < panelRow; r++) {
     if(removedRowCount >= 4) {
       return;
     }
     var isRowFull = true;
-    for(c = 0; c < panelColume; c++) {
+    for(var c = 0; c < panelColume; c++) {
       isRowFull = isRowFull && (currentGameInfo.piecesMap[r][c].located);
     }
     if(isRowFull) {
         // 모든 행을 한칸 아래로 이동시킨다.
-        for(y = r; y > 1; y--) {
-          for(c = 0; c < panelColume; c++) {
+        for(var y = r; y > 1; y--) {
+          for(var c = 0; c < panelColume; c++) {
             drawSquare(c, y, currentGameInfo.piecesMap[y-1][c].color);
             updateMap(c, y, currentGameInfo.piecesMap[y-1][c].color);
           }
         }
         // 가장 마지막 행은 빈칸으로 채운다.
-        for(c = 0; c < panelColume; c++) {
+        for(var c = 0; c < panelColume; c++) {
           drawSquare(c, 0, VACANT);
           updateMap(c, 0, VACANT);
         }
@@ -256,7 +265,9 @@ Piece.prototype.isCollision = function(x, y, piece) {
 }
 
 function keyboardEventHandler(e) {
-  if(e.keyCode == 37) {
+  if(e.keyCode == 32) {
+    p.moveEndDown();
+  } else if(e.keyCode == 37) {
     p.moveLeft();
   } else if(e.keyCode == 38)  {
     p.rotate();

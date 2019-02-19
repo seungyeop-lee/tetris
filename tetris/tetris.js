@@ -129,7 +129,9 @@ Piece.prototype.moveDown = function() {
     if(gameOver) {
       window.clearInterval(interval);
       document.removeEventListener('keydown', keyboardEventHandler);
-      alert('Game Over!');
+      window.setTimeout(function() {
+        alert('Game Over!');
+      }, 0);
     } else {
       this.removeRow();
       p = randomPiece();
@@ -212,15 +214,16 @@ Piece.prototype.rotate = function() {
 
 //블록을 고정시킨다.
 Piece.prototype.lock = function() {
-  for(var row = 0; row < this.activeTetromino.length; row++) {
-    for(var col = 0; col < this.activeTetromino.length; col++) {
+  for(var row = this.activeTetromino.length - 1; 0 <= row; row--) {
+    for(var col = this.activeTetromino.length - 1; 0 <= col; col--) {
       //블록의 빈부분은 계산하지 않는다.
       if(!this.activeTetromino[row][col]) {
         continue;
       }
       
       //블록을 그 자리에 고정시킨다.
-      this.draw();
+      drawSquare(this.x + col, this.y + row, this.color);
+      updateMap(this.x + col, this.y + row, this.color);
 
       //블록의 일부라도 위쪽 판넬을 넘어갈경우 확인
       if(this.y + row < 0) {

@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "name": "tetris",
+  "alias": "tetris-by-lsy.now.sh",
+  "builds": [
+    { "src": "tetris/*.html", "use": "@now/static" },
+    { "src": "tetris/*.css", "use": "@now/static" },
+    { "src": "tetris/*.js", "use": "@now/static" }
+  ],
+  "routes": [
+    {"src": "/", "dest": "tetris/tetris.html"},
+    { "src": "^/(.*)", "headers": { "cache-control": "s-maxage=31536000,immutable" }, "dest": "/tetris/$1" }
+  ],
+  "github": {
+    "enabled": true
+  }
+}

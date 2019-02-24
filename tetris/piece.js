@@ -88,7 +88,7 @@ Piece.prototype.moveDown = function() {
     this.draw();
   } else {
     this.lock();
-    if(gameOver && cGameInfo.started) {
+    if(cGameInfo.gameOver && cGameInfo.started) {
       cGameInfo.started = false;
       window.clearInterval(cGameInfo.dropIntervalId);
       document.removeEventListener('keydown', keyboardEventHandler);
@@ -190,7 +190,7 @@ Piece.prototype.lock = function() {
 
       //블록의 일부라도 위쪽 판넬을 넘어갈경우 확인
       if(this.y + row < 0) {
-        gameOver = true;
+        cGameInfo.gameOver = true;
         return;
       }
     }

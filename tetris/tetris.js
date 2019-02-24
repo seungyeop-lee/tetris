@@ -60,6 +60,7 @@ function GameInfo() {
   this.cPiece;
 
   this.started = false;
+  this.gameOver = false;
   this.dropIntervalTime = 1000;
   this.accelateIntervalTime = 10000;
   this.dropIntervalId;
@@ -89,8 +90,6 @@ var cGameInfo = new GameInfo();
 cGameInfo.init(cGameInfo.panelRow, cGameInfo.panelColume);
 initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
 
-var gameOver = false;
-
 function play() {
   cGameInfo.cPiece = randomPiece();
   cGameInfo.cPiece.draw();
@@ -99,7 +98,7 @@ function play() {
 }
 
 function setPlayInterval() {
-  if(gameOver === false) {
+  if(cGameInfo.gameOver === false) {
     window.setTimeout(function() {
       cGameInfo.cPiece.moveDown();
       setPlayInterval();

@@ -64,11 +64,11 @@ function updateMap(x, y, color) {
     return;
   }
   if(color === VACANT) {
-    currentGameInfo.piecesMap[y][x].located = false;
+    cGameInfo.piecesMap[y][x].located = false;
   } else {
-    currentGameInfo.piecesMap[y][x].located = true;
+    cGameInfo.piecesMap[y][x].located = true;
   }
-  currentGameInfo.piecesMap[y][x].color = color;
+  cGameInfo.piecesMap[y][x].color = color;
 }
 
 //블록을 내려갈 수 있는 가장 아래로 이동한다.
@@ -88,9 +88,9 @@ Piece.prototype.moveDown = function() {
     this.draw();
   } else {
     this.lock();
-    if(gameOver && currentGameInfo.started) {
-      currentGameInfo.started = false;
-      window.clearInterval(currentGameInfo.dropIntervalId);
+    if(gameOver && cGameInfo.started) {
+      cGameInfo.started = false;
+      window.clearInterval(cGameInfo.dropIntervalId);
       document.removeEventListener('keydown', keyboardEventHandler);
       window.setTimeout(function() {
         alert('Game Over!');
@@ -129,14 +129,14 @@ Piece.prototype.removeRow = function() {
     }
     var isRowFull = true;
     for(var c = 0; c < panelColume; c++) {
-      isRowFull = isRowFull && (currentGameInfo.piecesMap[r][c].located);
+      isRowFull = isRowFull && (cGameInfo.piecesMap[r][c].located);
     }
     if(isRowFull) {
         // 모든 행을 한칸 아래로 이동시킨다.
         for(var y = r; y > 1; y--) {
           for(var c = 0; c < panelColume; c++) {
-            drawSquare(c, y, currentGameInfo.piecesMap[y-1][c].color);
-            updateMap(c, y, currentGameInfo.piecesMap[y-1][c].color);
+            drawSquare(c, y, cGameInfo.piecesMap[y-1][c].color);
+            updateMap(c, y, cGameInfo.piecesMap[y-1][c].color);
           }
         }
         // 가장 마지막 행은 빈칸으로 채운다.
@@ -222,7 +222,7 @@ Piece.prototype.isCollision = function(x, y, piece) {
       }
 
       //이동하려는 좌표에 블록이 존재하는지 확인
-      if(currentGameInfo.piecesMap[newY][newX].located) {
+      if(cGameInfo.piecesMap[newY][newX].located) {
         return true;
       }
     }

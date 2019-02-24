@@ -31,8 +31,8 @@ function initDisplayGamePanel(xSize, ySize) {
 }
 
 function keyboardEventHandler(e) {
-  if(currentGameInfo.started === false) {
-    currentGameInfo.started = true;
+  if(cGameInfo.started === false) {
+    cGameInfo.started = true;
     play();
     return;
   }
@@ -82,8 +82,8 @@ function randomPiece() {
 
 var panelRow = 20;
 var panelColume = 10;
-var currentGameInfo = new GameInfo();
-currentGameInfo.init(panelRow, panelColume);
+var cGameInfo = new GameInfo();
+cGameInfo.init(panelRow, panelColume);
 initDisplayGamePanel(panelColume, panelRow);
 
 var p;
@@ -101,14 +101,14 @@ function setPlayInterval() {
     window.setTimeout(function() {
       p.moveDown();
       setPlayInterval();
-    }, currentGameInfo.dropIntervalTime);
+    }, cGameInfo.dropIntervalTime);
   }
 }
 
 function setDropInterval() {
-  currentGameInfo.dropIntervalId = window.setInterval(function() {
-    if(currentGameInfo.dropIntervalTime > 200) {
-      currentGameInfo.dropIntervalTime -= 100;
+  cGameInfo.dropIntervalId = window.setInterval(function() {
+    if(cGameInfo.dropIntervalTime > 200) {
+      cGameInfo.dropIntervalTime -= 100;
     }
-  }, currentGameInfo.accelateIntervalTime);
+  }, cGameInfo.accelateIntervalTime);
 }

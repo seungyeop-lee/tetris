@@ -127,7 +127,8 @@ Piece.prototype.moveDown = function() {
   } else {
     this.lock();
     if(gameOver) {
-      window.clearInterval(interval);
+      currentGameInfo.started = false;
+      window.clearInterval(currentGameInfo.dropIntervalId);
       document.removeEventListener('keydown', keyboardEventHandler);
       window.setTimeout(function() {
         alert('Game Over!');
@@ -292,6 +293,9 @@ document.addEventListener('keydown', keyboardEventHandler);
 function GameInfo() {
   this.piecesMap;
   this.started = false;
+  this.dropIntervalTime = 1000;
+  this.accelateIntervalTime = 10000;
+  this.dropIntervalId;
 }
 
 GameInfo.prototype.init = function(row, col) {
@@ -321,13 +325,28 @@ currentGameInfo.init(panelRow, panelColume);
 initDisplayGamePanel(panelColume, panelRow);
 
 var p;
-var interval;
 var gameOver = false;
 
 function play() {
   p = randomPiece();
   p.draw();
-  interval = window.setInterval(function() {
-    p.moveDown();
-  }, 1000);
+  setDropInterval();
+  setPlayInterval();
+}
+
+function setPlayInterval() {
+  if(gameOver === false) {
+    window.setTimeout(function() {
+      p.moveDown();
+      setPlayInterval();
+    }, currentGameInfo.dropIntervalTime);
+  }
+}
+
+function setDropInterval() {
+  currentGameInfo.dropIntervalId = window.setInterval(function() {
+    if(currentGameInfo.dropIntervalTime > 200) {
+      currentGameInfo.dropIntervalTime -= 100;
+    }
+  }, currentGameInfo.accelateIntervalTime);
 }

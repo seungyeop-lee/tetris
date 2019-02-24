@@ -1,3 +1,4 @@
+// 블록 종류와 색
 var pieces = [
   [Z, 'red'],
   [S, 'green'],

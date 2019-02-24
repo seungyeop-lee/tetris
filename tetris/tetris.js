@@ -89,7 +89,6 @@ var cGameInfo = new GameInfo();
 cGameInfo.init(cGameInfo.panelRow, cGameInfo.panelColume);
 initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
 
-var p;
 var gameOver = false;
 
 function play() {

@@ -61,7 +61,7 @@ function Piece(tetromino, color) {
   this.tetrominoN = 0;
   this.activeTetromino = this.tetromino[this.tetrominoN];
 
-  this.x = panelColume/2-1;
+  this.x = panelColume/2-2;
   this.y = -2;
 }
 
@@ -268,6 +268,12 @@ Piece.prototype.isCollision = function(x, y, piece) {
 }
 
 function keyboardEventHandler(e) {
+  if(currentGameInfo.started === false) {
+    currentGameInfo.started = true;
+    play();
+    return;
+  }
+
   if(e.keyCode == 32) {
     p.moveEndDown();
   } else if(e.keyCode == 37) {
@@ -285,6 +291,7 @@ document.addEventListener('keydown', keyboardEventHandler);
 
 function GameInfo() {
   this.piecesMap;
+  this.started = false;
 }
 
 GameInfo.prototype.init = function(row, col) {
@@ -313,14 +320,14 @@ var currentGameInfo = new GameInfo();
 currentGameInfo.init(panelRow, panelColume);
 initDisplayGamePanel(panelColume, panelRow);
 
-var p = randomPiece();
+var p;
 var interval;
 var gameOver = false;
 
 function play() {
+  p = randomPiece();
   p.draw();
   interval = window.setInterval(function() {
     p.moveDown();
   }, 1000);
 }
-play();

@@ -1,3 +1,6 @@
+//현재 게임정보 객체 저장 변수
+var cGameInfo;
+
 /**
  * 테트리스 게임 판낼을 생성 후 브라우저에 표시한다.
  * @param {number} xSize 가로 블록 갯수
@@ -32,7 +35,7 @@ function initDisplayGamePanel(xSize, ySize) {
 function keyboardEventHandler(e) {
   if(cGameInfo.started === false) {
     cGameInfo.started = true;
-    play();
+    startPlay();
     return;
   }
 
@@ -65,7 +68,7 @@ function GameInfo() {
   this.dropIntervalId;
 }
 
-GameInfo.prototype.init = function(row, col) {
+function initPiecesMap(row, col) {
   var piecesMap = [];
   for(var currRow = 0; currRow < row; currRow++) {
     piecesMap[currRow] = [];
@@ -76,7 +79,7 @@ GameInfo.prototype.init = function(row, col) {
       };
     }
   }
-  this.piecesMap = piecesMap;
+  cGameInfo.piecesMap = piecesMap;
 }
 
 // 랜덤하게 블럭을 생성
@@ -85,11 +88,10 @@ function randomPiece() {
   return new Piece(pieces[r][0], pieces[r][1]);
 }
 
-var cGameInfo = new GameInfo();
-cGameInfo.init(cGameInfo.panelRow, cGameInfo.panelColume);
-initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
-
-function play() {
+cGameInfo = new GameInfo();
+function startPlay() {
+  initPiecesMap(cGameInfo.panelRow, cGameInfo.panelColume);
+  initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
   cGameInfo.cPiece = randomPiece();
   cGameInfo.cPiece.draw();
   setDropInterval();

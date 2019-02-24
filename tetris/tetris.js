@@ -29,7 +29,6 @@ function initDisplayGamePanel(xSize, ySize) {
       
       var cell = document.createElement('td');
       cell.className = 'col' + x;
-      cell.style.border = '1px solid black';
       cell.style.backgroundColor = 'white';
       row.appendChild(cell);
     }
@@ -37,15 +36,10 @@ function initDisplayGamePanel(xSize, ySize) {
   }
   
   //스타일 및 속성 지정
-  var gamePanelStyle = gamePanel.style;
-  gamePanelStyle.border = '1px solid black';
-  gamePanelStyle.borderCollapse = 'collapse';
-  gamePanelStyle.height = '500px';
-  gamePanelStyle.width = '250px';
-  gamePanel.id = 'game-panel';
+  gamePanel.id = 'tetris-panel';
   
   //화면에 추가
-  var gamePanelDiv = document.getElementById('game-panel-div');
+  var gamePanelDiv = document.getElementById('tetris-display');
   gamePanelDiv.appendChild(gamePanel);
 }
 

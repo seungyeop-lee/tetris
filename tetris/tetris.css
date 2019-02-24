@@ -1,0 +1,10 @@
+#tetris-panel {
+  border: 1px solid black;
+  border-collapse: collapse;
+  height: 500px;
+  width: 250px;
+}
+
+#tetris-panel tr td {
+  border: 1px solid black;
+}

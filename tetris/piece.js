@@ -93,6 +93,7 @@ Piece.prototype.moveDown = function() {
       cGameInfo.started = false;
       window.clearInterval(cGameInfo.dropIntervalId);
       document.removeEventListener('keydown', keyboardEventHandler);
+      setControleButton();
       goGameOverScreen();
     } else {
       this.removeRow();

@@ -33,11 +33,52 @@ section {
   border: 1px solid black;
 }
 
+#game-screen button {
+  border: 1px dashed gray;
+  background-color: rgba(30, 30, 30, 0.1);
+}
+
+#leftMove {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 20%;
+  height: 100%;
+  z-index: 2;
+}
+
+#rightMove {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  width: 20%;
+  height: 100%;
+  z-index: 2;
+}
+
+#rotate {
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  width: 60%;
+  height: 40%;
+  z-index: 2;
+}
+
+#hardDrop {
+  position: absolute;
+  bottom: 0%;
+  left: 20%;
+  width: 60%;
+  height: 30%;
+  z-index: 2;
+}
+
 #game-over-screen {
   position: absolute;
   top: 0%;
   left: 0%;
-  z-index: 2;
+  z-index: 3;
 }
 
 #game-over-div {

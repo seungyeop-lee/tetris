@@ -2,6 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, 
+  maximum-scale=1.0, minimum-scale=1.0">
   <title>Tetris by Seungyeop-Lee</title>
   <link href="tetris.css" rel="stylesheet" type="text/css">
 </head>
@@ -19,7 +21,11 @@ space: hard drop
     </div>
   </section>
   <section id="game-screen" style="display: none;">
+    <button id="leftMove" onclick="cGameInfo.cPiece.moveLeft();"></button>
+    <button id="rotate" onclick="cGameInfo.cPiece.rotate();"></button>
     <div id="tetris-display"></div>
+    <button id="rightMove" onclick="cGameInfo.cPiece.moveRight();"></button>
+    <button id="hardDrop" onclick="cGameInfo.cPiece.moveEndDown();"></button>
   </section>
   <section id="game-over-screen" style="display: none;">
     <div id="game-over-div">

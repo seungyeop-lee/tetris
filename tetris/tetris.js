@@ -59,6 +59,8 @@ function GameInfo() {
   this.dropIntervalTime = 1000;
   this.accelateIntervalTime = 10000;
   this.dropIntervalId;
+
+  this.mobile = navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/);
 }
 
 function initPiecesMap(row, col) {
@@ -92,12 +94,26 @@ function startPlay() {
   setDropInterval();
   setPlayInterval();
   document.addEventListener('keydown', keyboardEventHandler);
+  setControleButton();
 }
 
 function initScreen() {
   document.getElementById('start-screen').style.display = "none";
   document.getElementById('game-screen').style.display = "flex";
   document.getElementById('game-over-screen').style.display = "none";
+}
+
+function setControleButton() {
+  var buttons = document.getElementById('game-screen').getElementsByTagName('button');
+  if(cGameInfo.mobile && cGameInfo.started && !cGameInfo.gameOver) {
+    Array.from(buttons).forEach(function(button) {
+      button.style.display = "inline-block";
+    });
+  } else {
+    Array.from(buttons).forEach(function(button) {
+      button.style.display = "none";
+    });
+  }
 }
 
 function setPlayInterval() {

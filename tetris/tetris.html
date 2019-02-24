@@ -12,8 +12,15 @@
       <button onclick="startPlay();">Click to Play.</button>
     </div>
   </section>
-  <section id="game-screen">
+  <section id="game-screen" style="display: none;">
     <div id="tetris-display"></div>
+  </section>
+  <section id="game-over-screen" style="display: none;">
+    <div id="game-over-div">
+      <p>GameOver!!!</p>
+      <p><button onclick="restartGame();">Restart</button></p>
+      <p><button onclick="goStartUp();">Start-up Screen</button></p>
+    </div>
   </section>
 </body>
 <script src="tetrominoes.js"></script>

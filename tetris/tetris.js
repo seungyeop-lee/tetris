@@ -29,6 +29,7 @@ function initDisplayGamePanel(xSize, ySize) {
   
   //화면에 추가
   var gamePanelDiv = document.getElementById('tetris-display');
+  gamePanelDiv.innerHTML = "";
   gamePanelDiv.appendChild(gamePanel);
 }
 
@@ -96,6 +97,7 @@ function startPlay() {
 function initScreen() {
   document.getElementById('start-screen').style.display = "none";
   document.getElementById('game-screen').style.display = "flex";
+  document.getElementById('game-over-screen').style.display = "none";
 }
 
 function setPlayInterval() {
@@ -113,4 +115,18 @@ function setDropInterval() {
       cGameInfo.dropIntervalTime -= 100;
     }
   }, cGameInfo.accelateIntervalTime);
+}
+
+function goGameOverScreen() {
+  document.getElementById('game-over-screen').style.display = "flex";
+}
+
+function restartGame() {
+  startPlay();
+}
+
+function goStartUp() {
+  document.getElementById('start-screen').style.display = "flex";
+  document.getElementById('game-screen').style.display = "none";
+  document.getElementById('game-over-screen').style.display = "none";
 }

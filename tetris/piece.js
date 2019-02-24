@@ -93,9 +93,7 @@ Piece.prototype.moveDown = function() {
       cGameInfo.started = false;
       window.clearInterval(cGameInfo.dropIntervalId);
       document.removeEventListener('keydown', keyboardEventHandler);
-      window.setTimeout(function() {
-        alert('Game Over!');
-      }, 0);
+      goGameOverScreen();
     } else {
       this.removeRow();
       cGameInfo.cPiece = randomPiece();

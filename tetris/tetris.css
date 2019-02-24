@@ -41,10 +41,9 @@ section {
 }
 
 #game-over-div {
+  padding: 25px 25px;
   border: 1px dashed black;
   background-color: white;
-  height: 20%;
-  width: 50%;
 }
 
 #game-over-div p {

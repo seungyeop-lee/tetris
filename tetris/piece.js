@@ -97,7 +97,7 @@ Piece.prototype.moveDown = function() {
       }, 0);
     } else {
       this.removeRow();
-      p = randomPiece();
+      cGameInfo.cPiece = randomPiece();
     }
   }
 }

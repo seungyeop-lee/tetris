@@ -38,15 +38,15 @@ function keyboardEventHandler(e) {
   }
 
   if(e.keyCode == 32) {
-    p.moveEndDown();
+    cGameInfo.cPiece.moveEndDown();
   } else if(e.keyCode == 37) {
-    p.moveLeft();
+    cGameInfo.cPiece.moveLeft();
   } else if(e.keyCode == 38)  {
-    p.rotate();
+    cGameInfo.cPiece.rotate();
   } else if(e.keyCode == 39)  {
-    p.moveRight();
+    cGameInfo.cPiece.moveRight();
   } else if(e.keyCode == 40)  {
-    p.moveDown();
+    cGameInfo.cPiece.moveDown();
   }
 }
 
@@ -54,6 +54,8 @@ document.addEventListener('keydown', keyboardEventHandler);
 
 function GameInfo() {
   this.piecesMap;
+  this.cPiece;
+
   this.started = false;
   this.dropIntervalTime = 1000;
   this.accelateIntervalTime = 10000;
@@ -90,8 +92,8 @@ var p;
 var gameOver = false;
 
 function play() {
-  p = randomPiece();
-  p.draw();
+  cGameInfo.cPiece = randomPiece();
+  cGameInfo.cPiece.draw();
   setDropInterval();
   setPlayInterval();
 }
@@ -99,7 +101,7 @@ function play() {
 function setPlayInterval() {
   if(gameOver === false) {
     window.setTimeout(function() {
-      p.moveDown();
+      cGameInfo.cPiece.moveDown();
       setPlayInterval();
     }, cGameInfo.dropIntervalTime);
   }

@@ -23,7 +23,7 @@ function Piece(tetromino, color) {
   this.tetrominoN = 0;
   this.activeTetromino = this.tetromino[this.tetrominoN];
 
-  this.x = panelColume/2-2;
+  this.x = cGameInfo.panelColume/2-2;
   this.y = -2;
 }
 
@@ -123,24 +123,24 @@ Piece.prototype.moveLeft = function() {
 //다 채워진 행을 삭제한다.
 Piece.prototype.removeRow = function() {
   var removedRowCount = 0;
-  for(var r = 0; r < panelRow; r++) {
+  for(var r = 0; r < cGameInfo.panelRow; r++) {
     if(removedRowCount >= 4) {
       return;
     }
     var isRowFull = true;
-    for(var c = 0; c < panelColume; c++) {
+    for(var c = 0; c < cGameInfo.panelColume; c++) {
       isRowFull = isRowFull && (cGameInfo.piecesMap[r][c].located);
     }
     if(isRowFull) {
         // 모든 행을 한칸 아래로 이동시킨다.
         for(var y = r; y > 1; y--) {
-          for(var c = 0; c < panelColume; c++) {
+          for(var c = 0; c < cGameInfo.panelColume; c++) {
             drawSquare(c, y, cGameInfo.piecesMap[y-1][c].color);
             updateMap(c, y, cGameInfo.piecesMap[y-1][c].color);
           }
         }
         // 가장 마지막 행은 빈칸으로 채운다.
-        for(var c = 0; c < panelColume; c++) {
+        for(var c = 0; c < cGameInfo.panelColume; c++) {
           drawSquare(c, 0, VACANT);
           updateMap(c, 0, VACANT);
         }
@@ -158,7 +158,7 @@ Piece.prototype.rotate = function() {
 
   //회전했을 때 충돌 유무 판단
   if(this.isCollision(0, 0, nextPattern)) {
-    if(this.x > panelColume/2) {
+    if(this.x > cGameInfo.panelColume/2) {
       //패널의 오른쪽에 위치
       kick = -1;  //블록을 왼쪽으로 한칸 옮긴다.
     } else {
@@ -211,7 +211,7 @@ Piece.prototype.isCollision = function(x, y, piece) {
       var newY = this.y + row + y;
 
       //판넬을 넘어갈경우 확인(좌, 우, 아래)
-      if(newX < 0 || newX >= panelColume || newY >= panelRow) {
+      if(newX < 0 || newX >= cGameInfo.panelColume || newY >= cGameInfo.panelRow) {
         return true;
       }
 

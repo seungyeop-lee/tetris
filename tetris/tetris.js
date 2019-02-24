@@ -53,6 +53,9 @@ function keyboardEventHandler(e) {
 document.addEventListener('keydown', keyboardEventHandler);
 
 function GameInfo() {
+  this.panelRow = 20;
+  this.panelColume = 10;
+
   this.piecesMap;
   this.cPiece;
 
@@ -82,11 +85,9 @@ function randomPiece() {
   return new Piece(pieces[r][0], pieces[r][1]);
 }
 
-var panelRow = 20;
-var panelColume = 10;
 var cGameInfo = new GameInfo();
-cGameInfo.init(panelRow, panelColume);
-initDisplayGamePanel(panelColume, panelRow);
+cGameInfo.init(cGameInfo.panelRow, cGameInfo.panelColume);
+initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
 
 var p;
 var gameOver = false;

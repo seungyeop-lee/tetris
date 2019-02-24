@@ -33,12 +33,6 @@ function initDisplayGamePanel(xSize, ySize) {
 }
 
 function keyboardEventHandler(e) {
-  if(cGameInfo.started === false) {
-    cGameInfo.started = true;
-    startPlay();
-    return;
-  }
-
   if(e.keyCode == 32) {
     cGameInfo.cPiece.moveEndDown();
   } else if(e.keyCode == 37) {
@@ -51,8 +45,6 @@ function keyboardEventHandler(e) {
     cGameInfo.cPiece.moveDown();
   }
 }
-
-document.addEventListener('keydown', keyboardEventHandler);
 
 function GameInfo() {
   this.panelRow = 20;
@@ -88,14 +80,22 @@ function randomPiece() {
   return new Piece(pieces[r][0], pieces[r][1]);
 }
 
-cGameInfo = new GameInfo();
 function startPlay() {
+  cGameInfo = new GameInfo();
+  cGameInfo.started = true;
+  initScreen();
   initPiecesMap(cGameInfo.panelRow, cGameInfo.panelColume);
   initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
   cGameInfo.cPiece = randomPiece();
   cGameInfo.cPiece.draw();
   setDropInterval();
   setPlayInterval();
+  document.addEventListener('keydown', keyboardEventHandler);
+}
+
+function initScreen() {
+  document.getElementById('start-screen').style.display = "none";
+  document.getElementById('game-screen').style.display = "flex";
 }
 
 function setPlayInterval() {

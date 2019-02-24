@@ -120,7 +120,7 @@ Piece.prototype.moveDown = function() {
     this.draw();
   } else {
     this.lock();
-    if(gameOver) {
+    if(gameOver && currentGameInfo.started) {
       currentGameInfo.started = false;
       window.clearInterval(currentGameInfo.dropIntervalId);
       document.removeEventListener('keydown', keyboardEventHandler);

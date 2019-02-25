@@ -20,16 +20,25 @@ space: hard drop
       </pre>
     </div>
   </section>
-  <section id="game-screen" style="display: none;">
+  <section id="outer-game-screen" style="display: none;">
     <button id="leftMove" onclick="cGameInfo.cPiece.moveLeft();"></button>
     <button id="rotate" onclick="cGameInfo.cPiece.rotate();"></button>
-    <div id="tetris-display"></div>
+    <section id="inner-game-screen">
+      <div id="tetris-display"></div>
+      <div id="game-info" style="display: none;">
+        <p class="info-label">SCORE</p>
+        <p class="info-value" id="game-info-score">0000</p>
+        <p class="info-label">Game Speed</p>
+        <p class="info-value" id="game-speed">1.0 sec/pick</p>
+      </div>
+    </section>
     <button id="rightMove" onclick="cGameInfo.cPiece.moveRight();"></button>
     <button id="hardDrop" onclick="cGameInfo.cPiece.moveEndDown();"></button>
   </section>
   <section id="game-over-screen" style="display: none;">
     <div id="game-over-div">
       <p>GameOver!!!</p>
+      <p id="game-over-score">SCORE: 0000</p>
       <p><button onclick="restartGame();">Restart</button></p>
       <p><button onclick="goStartUp();">Start-up Screen</button></p>
     </div>

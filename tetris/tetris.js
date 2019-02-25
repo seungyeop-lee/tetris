@@ -99,12 +99,17 @@ function startPlay() {
 
 function initScreen() {
   document.getElementById('start-screen').style.display = "none";
-  document.getElementById('game-screen').style.display = "flex";
+  document.getElementById('outer-game-screen').style.display = "flex";
   document.getElementById('game-over-screen').style.display = "none";
+  if(cGameInfo.mobile) {
+    document.getElementById('game-info').style.display = "none";
+  } else {
+    document.getElementById('game-info').style.display = "inline-block";
+  }
 }
 
 function setControleButton() {
-  var buttons = document.getElementById('game-screen').getElementsByTagName('button');
+  var buttons = document.getElementById('outer-game-screen').getElementsByTagName('button');
   if(cGameInfo.mobile && cGameInfo.started && !cGameInfo.gameOver) {
     Array.from(buttons).forEach(function(button) {
       button.style.display = "inline-block";
@@ -143,6 +148,6 @@ function restartGame() {
 
 function goStartUp() {
   document.getElementById('start-screen').style.display = "flex";
-  document.getElementById('game-screen').style.display = "none";
+  document.getElementById('outer-game-screen').style.display = "none";
   document.getElementById('game-over-screen').style.display = "none";
 }

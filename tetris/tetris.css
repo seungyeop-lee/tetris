@@ -18,8 +18,19 @@ section {
   text-align: center;
 }
 
-#game-screen {
+#outer-game-screen {
   z-index: 1;
+}
+
+#inner-game-screen {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 500px;
+}
+
+#tetris-display, #game-info {
+  display: inline-block;
 }
 
 #tetris-panel {
@@ -33,7 +44,24 @@ section {
   border: 1px solid black;
 }
 
-#game-screen button {
+#game-info {
+  margin-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid black;
+  width: 70px;
+}
+
+#game-info p {
+  font-size: 10px;
+  text-align: center;
+}
+
+#game-info p.info-value {
+  font-weight: bolder;
+}
+
+#outer-game-screen button {
   border: 1px dashed gray;
   background-color: rgba(30, 30, 30, 0.1);
 }

@@ -27,6 +27,8 @@ section {
   justify-content: center;
   align-items: flex-start;
   height: 500px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 #tetris-display, #game-info {
@@ -109,7 +111,7 @@ section {
   z-index: 3;
 }
 
-#game-over-div {
+#start-div, #game-over-div {
   padding: 25px 25px;
   border: 1px dashed black;
   background-color: white;

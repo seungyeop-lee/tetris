@@ -92,6 +92,7 @@ function GameInfo() {
     this.gameScoreTag.innerHTML = this.score;
     this.gameOverScoreTag.innerHTML = "SCORE: " + this.score;
   }
+  this.updateScore();
 }
 
 function initPiecesMap(row, col) {
@@ -132,11 +133,6 @@ function initScreen() {
   document.getElementById('start-screen').style.display = "none";
   document.getElementById('outer-game-screen').style.display = "flex";
   document.getElementById('game-over-screen').style.display = "none";
-  if(cGameInfo.mobile) {
-    document.getElementById('game-info').style.display = "none";
-  } else {
-    document.getElementById('game-info').style.display = "inline-block";
-  }
 }
 
 function setControleButton() {

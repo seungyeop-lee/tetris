@@ -67,6 +67,31 @@ function GameInfo() {
     this.gameSpeedTag.innerHTML = this.dropIntervalTime / 1000 + " sec/pick";
   }
   this.changeSpeedDisplay();
+
+  this.score = 0;
+  this.gameScoreTag = document.getElementById('game-info-score');
+  this.gameOverScoreTag = document.getElementById('game-over-score');
+  this.updateScore = function(removedRowCount) {
+    switch (removedRowCount) {
+      case 1:
+        this.score += 100;
+        break;
+      case 2:
+        this.score += 200;
+        break;
+      case 3:
+        this.score += 400;
+        break;
+      case 4:
+        this.score += 600;
+        break;
+      default:
+        console.log('unexpected removedRowCount: ' + removedRowCount);
+        break;
+    }
+    this.gameScoreTag.innerHTML = this.score;
+    this.gameOverScoreTag.innerHTML = "SCORE: " + this.score;
+  }
 }
 
 function initPiecesMap(row, col) {

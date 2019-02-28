@@ -27,9 +27,9 @@ space: hard drop
       <div id="tetris-display"></div>
       <div id="game-info" style="display: none;">
         <p class="info-label">SCORE</p>
-        <p class="info-value" id="game-info-score">0000</p>
+        <p class="info-value" id="game-info-score">0</p>
         <p class="info-label">Game Speed</p>
-        <p class="info-value" id="game-speed">1.0 sec/pick</p>
+        <p class="info-value" id="game-speed"></p>
       </div>
     </section>
     <button id="rightMove" onclick="cGameInfo.cPiece.moveRight();"></button>
@@ -38,7 +38,7 @@ space: hard drop
   <section id="game-over-screen" style="display: none;">
     <div id="game-over-div">
       <p>GameOver!!!</p>
-      <p id="game-over-score">SCORE: 0000</p>
+      <p id="game-over-score">SCORE: 0</p>
       <p><button onclick="restartGame();">Restart</button></p>
       <p><button onclick="goStartUp();">Start-up Screen</button></p>
     </div>

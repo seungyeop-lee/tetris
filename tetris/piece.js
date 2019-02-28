@@ -147,6 +147,9 @@ Piece.prototype.removeRow = function() {
         removedRowCount++;
     }
   }
+  if(removedRowCount > 0) {
+    cGameInfo.updateScore(removedRowCount);
+  }
 }
 
 //블록을 회전시킨다.

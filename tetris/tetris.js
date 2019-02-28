@@ -61,6 +61,12 @@ function GameInfo() {
   this.dropIntervalId;
 
   this.mobile = navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/);
+
+  this.gameSpeedTag = document.getElementById('game-speed');
+  this.changeSpeedDisplay = function() {
+    this.gameSpeedTag.innerHTML = this.dropIntervalTime / 1000 + " sec/pick";
+  }
+  this.changeSpeedDisplay();
 }
 
 function initPiecesMap(row, col) {
@@ -134,6 +140,7 @@ function setDropInterval() {
   cGameInfo.dropIntervalId = window.setInterval(function() {
     if(cGameInfo.dropIntervalTime > 200) {
       cGameInfo.dropIntervalTime -= 100;
+      cGameInfo.changeSpeedDisplay();
     }
   }, cGameInfo.accelateIntervalTime);
 }

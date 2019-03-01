@@ -72,6 +72,23 @@ function updateMap(x, y, color) {
   cGameInfo.piecesMap[y][x].color = color;
 }
 
+Piece.prototype.nbDraw = function() {
+  for(var row = 0; row < 4; row++) {
+    for(var col = 0; col < 4; col++) {
+      var cell = document.getElementsByClassName('nbRow' + row)[0].getElementsByClassName('nbCol' + col)[0];
+      if(this.activeTetromino.length > row && 
+        this.activeTetromino.length > col && 
+        this.activeTetromino[row][col]) {
+        cell.style.backgroundColor = this.color;
+        cell.style.border = "1px solid black";
+      } else {
+        cell.style.backgroundColor = 'white';
+        cell.style.border = "";
+      }
+    }
+  }
+}
+
 //블록을 내려갈 수 있는 가장 아래로 이동한다.
 Piece.prototype.moveEndDown = function() {
   this.unDraw();
@@ -97,7 +114,7 @@ Piece.prototype.moveDown = function() {
       goGameOverScreen();
     } else {
       this.removeRow();
-      cGameInfo.cPiece = randomPiece();
+      setNextPieces();
     }
   }
 }

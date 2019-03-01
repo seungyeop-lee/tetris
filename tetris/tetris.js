@@ -53,6 +53,7 @@ function GameInfo() {
 
   this.piecesMap;
   this.cPiece;
+  this.nPiece;
 
   this.started = false;
   this.gameOver = false;
@@ -73,6 +74,8 @@ function GameInfo() {
   this.gameOverScoreTag = document.getElementById('game-over-score');
   this.updateScore = function(removedRowCount) {
     switch (removedRowCount) {
+      case 0:
+        break;
       case 1:
         this.score += 100;
         break;
@@ -92,7 +95,7 @@ function GameInfo() {
     this.gameScoreTag.innerHTML = this.score;
     this.gameOverScoreTag.innerHTML = "SCORE: " + this.score;
   }
-  this.updateScore();
+  this.updateScore(0);
 }
 
 function initPiecesMap(row, col) {
@@ -122,12 +125,22 @@ function startPlay() {
   initPiecesMap(cGameInfo.panelRow, cGameInfo.panelColume);
   initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
   initNextBlockInfo();
-  cGameInfo.cPiece = randomPiece();
-  cGameInfo.cPiece.draw();
+  setNextPieces();
   setDropInterval();
   setPlayInterval();
   document.addEventListener('keydown', keyboardEventHandler);
   setControleButton();
+}
+
+function setNextPieces() {
+  if(cGameInfo.nPiece) {
+    cGameInfo.cPiece = cGameInfo.nPiece;
+  } else {
+    cGameInfo.cPiece = randomPiece();
+  }
+  cGameInfo.cPiece.draw();
+  cGameInfo.nPiece = randomPiece();
+  cGameInfo.nPiece.nbDraw();
 }
 
 function initScreen() {
@@ -200,5 +213,8 @@ function initNextBlockInfo() {
   }
   
   var nextBlockInfo = document.getElementById('next-block-info');
+  if(nextBlockInfo.childElementCount > 1) {
+    nextBlockInfo.lastElementChild.remove();
+  }
   nextBlockInfo.appendChild(nextBlockInfoTable);
 }

@@ -31,7 +31,7 @@ section {
   padding-right: 10px;
 }
 
-#tetris-display, #game-info {
+#tetris-display, #tetris-info {
   display: inline-block;
 }
 
@@ -46,21 +46,35 @@ section {
   border: 1px solid black;
 }
 
-#game-info {
+#tetris-info {
   margin-left: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border: 1px solid black;
   width: 70px;
 }
 
-#game-info p {
+#tetris-info p {
   font-size: 10px;
   text-align: center;
 }
 
-#game-info p.info-value {
+#tetris-info p.info-value {
   font-weight: bolder;
+}
+
+#next-block-info {
+  margin-bottom: 10px;
+}
+
+#next-block {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 70px;
+  height: 70px;
+}
+
+#game-info {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid black;
 }
 
 #outer-game-screen button {

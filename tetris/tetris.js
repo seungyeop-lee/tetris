@@ -121,6 +121,7 @@ function startPlay() {
   initScreen();
   initPiecesMap(cGameInfo.panelRow, cGameInfo.panelColume);
   initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
+  initNextBlockInfo();
   cGameInfo.cPiece = randomPiece();
   cGameInfo.cPiece.draw();
   setDropInterval();
@@ -178,4 +179,26 @@ function goStartUp() {
   document.getElementById('start-screen').style.display = "flex";
   document.getElementById('outer-game-screen').style.display = "none";
   document.getElementById('game-over-screen').style.display = "none";
+}
+
+function initNextBlockInfo() {
+  var nextBlockInfoTable = document.createElement('table');
+  nextBlockInfoTable.id = 'next-block';
+
+  for(var row = 0; row < 4; ++row) {
+    var tr = document.createElement('tr');
+    tr.className = "nbRow" + row;
+    
+    for(var col = 0; col < 4; ++col) {
+      var cell = document.createElement('td');
+      cell.className = "nbCol" + col;
+      cell.style.backgroundColor = 'white';
+      tr.appendChild(cell);
+    }
+
+    nextBlockInfoTable.appendChild(tr);
+  }
+  
+  var nextBlockInfo = document.getElementById('next-block-info');
+  nextBlockInfo.appendChild(nextBlockInfoTable);
 }

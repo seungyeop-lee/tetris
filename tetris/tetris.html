@@ -22,11 +22,16 @@ space: hard drop
   <section id="outer-game-screen" style="display: none;">
     <section id="inner-game-screen">
       <div id="tetris-display"></div>
-      <div id="game-info">
-        <p class="info-label">SCORE</p>
-        <p class="info-value" id="game-info-score">0</p>
-        <p class="info-label">Game Speed</p>
-        <p class="info-value" id="game-speed"></p>
+      <div id="tetris-info">
+        <div id="next-block-info">
+          <p style="margin-top: 0;">Next Block</p>
+        </div>
+        <div id="game-info">
+          <p class="info-label">SCORE</p>
+          <p class="info-value" id="game-info-score">0</p>
+          <p class="info-label">Game Speed</p>
+          <p class="info-value" id="game-speed"></p>
+        </div>
       </div>
     </section>
     <button id="leftMove" onclick="cGameInfo.cPiece.moveLeft();"></button>

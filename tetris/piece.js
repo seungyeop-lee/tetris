@@ -2,7 +2,7 @@
 var pieces = [
   [Z, 'red', zStartY],
   [S, 'green', sStartY],
-  [T, 'yellow', tStartY],
+  [T, '#e6e619', tStartY],
   [O, 'blue', oStartY],
   [L, 'purple', lStartY],
   [I, 'cyan', iStartY],

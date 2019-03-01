@@ -115,7 +115,7 @@ function initPiecesMap(row, col) {
 // 랜덤하게 블럭을 생성
 function randomPiece() {
   var r = Math.floor(Math.random() * pieces.length);  // 0 ~ 6
-  return new Piece(pieces[r][0], pieces[r][1]);
+  return new Piece(pieces[r][0], pieces[r][1], pieces[r][2]);
 }
 
 function startPlay() {

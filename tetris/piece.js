@@ -1,12 +1,12 @@
 // 블록 종류와 색
 var pieces = [
-  [Z, 'red'],
-  [S, 'green'],
-  [T, 'yellow'],
-  [O, 'blue'],
-  [L, 'purple'],
-  [I, 'cyan'],
-  [J, 'orange']
+  [Z, 'red', zStartY],
+  [S, 'green', sStartY],
+  [T, 'yellow', tStartY],
+  [O, 'blue', oStartY],
+  [L, 'purple', lStartY],
+  [I, 'cyan', iStartY],
+  [J, 'orange', jStartY]
 ];
 
 // 빈 블록 색 지정
@@ -16,16 +16,17 @@ var VACANT = 'white';
  * 블럭 조각 한개를 나타낸다.
  * @param {Array[tetrominoN][row][col]} tetromino 
  * @param {string} color 
+ * @param {Array[tetrominoN]}
  */
-function Piece(tetromino, color) {
+function Piece(tetromino, color, startY) {
   this.tetromino = tetromino;
   this.color = color;
 
-  this.tetrominoN = 0;
+  this.tetrominoN = Math.floor(Math.random() * tetromino.length);
   this.activeTetromino = this.tetromino[this.tetrominoN];
 
   this.x = cGameInfo.panelColume/2-2;
-  this.y = -2;
+  this.y = startY[this.tetrominoN];
 }
 
 // 블럭을 그린다.

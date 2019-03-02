@@ -154,10 +154,12 @@ function setControleButton() {
   if(cGameInfo.mobile && cGameInfo.started && !cGameInfo.gameOver) {
     Array.from(buttons).forEach(function(button) {
       button.style.display = "inline-block";
+      button.addEventListener('touchmove', preventZoomInOut, false);
     });
   } else {
     Array.from(buttons).forEach(function(button) {
       button.style.display = "none";
+      button.removeEventListener('touchmove', preventZoomInOut, false);
     });
   }
 }
@@ -217,4 +219,11 @@ function initNextBlockInfo() {
     nextBlockInfo.lastElementChild.remove();
   }
   nextBlockInfo.appendChild(nextBlockInfoTable);
+}
+
+function preventZoomInOut(e) {
+  e = e.originalEvent || e;
+  if (e.scale !== 1) {
+     e.preventDefault();
+  }
 }

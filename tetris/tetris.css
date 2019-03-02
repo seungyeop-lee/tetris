@@ -80,6 +80,7 @@ section {
 #outer-game-screen button {
   border: 1px dashed gray;
   background-color: rgba(30, 30, 30, 0.1);
+  touch-action: manipulation;
 }
 
 #leftMove {

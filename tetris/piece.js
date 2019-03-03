@@ -1,4 +1,4 @@
-// 블록 종류와 색
+// 블록 종류와 색, 블록 회전에 따른 초기 y값
 var pieces = [
   [Z, 'red', zStartY],
   [S, 'green', sStartY],
@@ -16,7 +16,7 @@ var VACANT = 'white';
  * 블럭 조각 한개를 나타낸다.
  * @param {Array[tetrominoN][row][col]} tetromino 
  * @param {string} color 
- * @param {Array[tetrominoN]}
+ * @param {Array[tetrominoN]} 해당 블록의 방향에 따른 초기 Y값
  */
 function Piece(tetromino, color, startY) {
   this.tetromino = tetromino;
@@ -76,6 +76,8 @@ Piece.prototype.rotate = function() {
 //블록을 내려갈 수 있는 가장 아래로 이동한다.
 Piece.prototype.moveEndDown = function() {
   this.unDraw();
+  
+  //충돌이 일어날 때까지 y를 증가
   while(!this.isCollision(0, 1, this.activeTetromino)) {
     this.y++;
   }
@@ -85,17 +87,26 @@ Piece.prototype.moveEndDown = function() {
 //블록을 아래로 이동한다.
 Piece.prototype.moveDown = function() {
   this.unDraw();
+
+  //충돌이 없으면
   if(!this.isCollision(0, 1, this.activeTetromino)) {
     this.y++;
     this.draw();
+  
+  //충돌이 있으면
   } else {
+    //블록 고정
     this.lock();
+
+    //게임오버가 일어나면
     if(cGameInfo.gameOver && cGameInfo.started) {
       cGameInfo.started = false;
       window.clearInterval(cGameInfo.dropIntervalId);
       document.removeEventListener('keydown', keyboardEventHandler);
       setControleButton();
       goGameOverScreen();
+
+    //게임오버가 일어나지 않으면
     } else {
       this.removeRow();
       setNextPieces();
@@ -129,13 +140,18 @@ Piece.prototype.lock = function() {
 Piece.prototype.removeRow = function() {
   var removedRowCount = 0;
   for(var r = 0; r < cGameInfo.panelRow; r++) {
+    
+    //삭제 행이 4개에 도달하면 메소드를 종료한다.
     if(removedRowCount >= 4) {
       return;
     }
+
+    //해당 행의 모든 열이 차있는지를 확인한다.
     var isRowFull = true;
     for(var c = 0; c < cGameInfo.panelColume; c++) {
       isRowFull = isRowFull && (cGameInfo.piecesMap[r][c].located);
     }
+
     if(isRowFull) {
         // 모든 행을 한칸 아래로 이동시킨다.
         for(var y = r; y > 1; y--) {
@@ -152,6 +168,8 @@ Piece.prototype.removeRow = function() {
         removedRowCount++;
     }
   }
+  
+  //1개 이상의 행이 삭제되었으면, 점수를 업데이트 한다.
   if(removedRowCount > 0) {
     cGameInfo.updateScore(removedRowCount);
   }
@@ -234,6 +252,7 @@ function updateMap(x, y, color) {
   cGameInfo.piecesMap[y][x].color = color;
 }
 
+//다음 블럭 표시화면에 해당블럭을 표시한다.
 Piece.prototype.nbDraw = function() {
   for(var row = 0; row < 4; row++) {
     for(var col = 0; col < 4; col++) {

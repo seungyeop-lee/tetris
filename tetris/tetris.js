@@ -3,7 +3,6 @@ var cGameInfo;
 
 function startPlay() {
   cGameInfo = new GameInfo();
-  cGameInfo.started = true;
   initScreen();
   initPiecesMap(cGameInfo.panelRow, cGameInfo.panelColume);
   initDisplayGamePanel(cGameInfo.panelColume, cGameInfo.panelRow);
@@ -23,7 +22,7 @@ function GameInfo() {
   this.cPiece;
   this.nPiece;
 
-  this.started = false;
+  this.started = true;
   this.gameOver = false;
   this.dropIntervalTime = 1000;
   this.accelateIntervalTime = 10000;
@@ -154,6 +153,12 @@ function setNextPieces() {
   cGameInfo.nPiece.nbDraw();
 }
 
+// 랜덤하게 블럭을 생성
+function randomPiece() {
+  var r = Math.floor(Math.random() * pieces.length);  // 0 ~ 6
+  return new Piece(pieces[r][0], pieces[r][1], pieces[r][2]);
+}
+
 function setDropInterval() {
   cGameInfo.dropIntervalId = window.setInterval(function() {
     if(cGameInfo.dropIntervalTime > 200) {
@@ -201,10 +206,11 @@ function setControleButton() {
   }
 }
 
-// 랜덤하게 블럭을 생성
-function randomPiece() {
-  var r = Math.floor(Math.random() * pieces.length);  // 0 ~ 6
-  return new Piece(pieces[r][0], pieces[r][1], pieces[r][2]);
+function preventZoomInOut(e) {
+  e = e.originalEvent || e;
+  if (e.scale !== 1) {
+     e.preventDefault();
+  }
 }
 
 function goGameOverScreen() {
@@ -219,11 +225,4 @@ function goStartUp() {
   document.getElementById('start-screen').style.display = "flex";
   document.getElementById('outer-game-screen').style.display = "none";
   document.getElementById('game-over-screen').style.display = "none";
-}
-
-function preventZoomInOut(e) {
-  e = e.originalEvent || e;
-  if (e.scale !== 1) {
-     e.preventDefault();
-  }
 }

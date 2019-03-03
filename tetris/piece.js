@@ -141,9 +141,9 @@ Piece.prototype.removeRow = function() {
   var removedRowCount = 0;
   for(var r = 0; r < cGameInfo.panelRow; r++) {
     
-    //삭제 행이 4개에 도달하면 메소드를 종료한다.
+    //삭제 행이 4개에 도달하면 반복문을 종료한다.
     if(removedRowCount >= 4) {
-      return;
+      break;
     }
 
     //해당 행의 모든 열이 차있는지를 확인한다.

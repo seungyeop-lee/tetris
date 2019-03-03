@@ -1,6 +1,7 @@
 //현재 게임정보 객체 저장 변수
 var cGameInfo;
 
+//게임 시작 함수
 function startPlay() {
   cGameInfo = new GameInfo();
   initScreen();
@@ -14,28 +15,33 @@ function startPlay() {
   setControleButton();
 }
 
+/**
+ * 게임 정보를 생성하는 생성자 함수
+ */
 function GameInfo() {
   this.panelRow = 20;
   this.panelColume = 10;
 
   this.piecesMap;
-  this.cPiece;
-  this.nPiece;
+  this.cPiece;  //현재 블록
+  this.nPiece;  //다음 블록
 
   this.started = true;
   this.gameOver = false;
-  this.dropIntervalTime = 1000;
-  this.accelateIntervalTime = 10000;
+  this.dropIntervalTime = 1000; //초기 속도, 1초에 1tick을 의미
+  this.accelateIntervalTime = 10000;  //가속 간격, 10초를 의미
   this.dropIntervalId;
 
   this.mobile = navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/);
 
+  //게임 속도 표시
   this.gameSpeedTag = document.getElementById('game-speed');
   this.changeSpeedDisplay = function() {
     this.gameSpeedTag.innerHTML = this.dropIntervalTime / 1000 + " sec/pick";
   }
   this.changeSpeedDisplay();
 
+  //스코어 표시
   this.score = 0;
   this.gameScoreTag = document.getElementById('game-info-score');
   this.gameOverScoreTag = document.getElementById('game-over-score');
@@ -65,12 +71,18 @@ function GameInfo() {
   this.updateScore(0);
 }
 
+//게임화면 부분을 표시한다.
 function initScreen() {
   document.getElementById('start-screen').style.display = "none";
   document.getElementById('outer-game-screen').style.display = "flex";
   document.getElementById('game-over-screen').style.display = "none";
 }
 
+/**
+ * 게임 판넬의 정보를 저장 할 배열을 초기화한다.
+ * @param {number} row 
+ * @param {number} col 
+ */
 function initPiecesMap(row, col) {
   var piecesMap = [];
   for(var currRow = 0; currRow < row; currRow++) {
@@ -117,6 +129,9 @@ function initDisplayGamePanel(xSize, ySize) {
   gamePanelDiv.appendChild(gamePanel);
 }
 
+/**
+ * 다음 블럭 표시부분을 생성 후 브라우저에 표시한다.
+ */
 function initNextBlockInfo() {
   var nextBlockInfoTable = document.createElement('table');
   nextBlockInfoTable.id = 'next-block';
@@ -142,6 +157,7 @@ function initNextBlockInfo() {
   nextBlockInfo.appendChild(nextBlockInfoTable);
 }
 
+//현재블록과 다음블록을 설정한다.
 function setNextPieces() {
   if(cGameInfo.nPiece) {
     cGameInfo.cPiece = cGameInfo.nPiece;
@@ -159,6 +175,7 @@ function randomPiece() {
   return new Piece(pieces[r][0], pieces[r][1], pieces[r][2]);
 }
 
+//가속 간격마다 0.1초씩 내려오는 속도를 높인다. 최대속도 0.2 sec/tick
 function setDropInterval() {
   cGameInfo.dropIntervalId = window.setInterval(function() {
     if(cGameInfo.dropIntervalTime > 200) {
@@ -168,6 +185,7 @@ function setDropInterval() {
   }, cGameInfo.accelateIntervalTime);
 }
 
+//게임 속도에 따라 블록을 움직인다.
 function setPlayInterval() {
   if(cGameInfo.gameOver === false) {
     window.setTimeout(function() {
@@ -177,20 +195,27 @@ function setPlayInterval() {
   }
 }
 
+//키보드 이벤트 리스너
 function keyboardEventHandler(e) {
+  //space 키
   if(e.keyCode == 32) {
     cGameInfo.cPiece.moveEndDown();
+  //왼쪽 화살표
   } else if(e.keyCode == 37) {
     cGameInfo.cPiece.moveLeft();
+  //위쪽 화살표
   } else if(e.keyCode == 38)  {
     cGameInfo.cPiece.rotate();
+  //오른쪽 화살표
   } else if(e.keyCode == 39)  {
     cGameInfo.cPiece.moveRight();
+  //아래 화살표
   } else if(e.keyCode == 40)  {
     cGameInfo.cPiece.moveDown();
   }
 }
 
+//모바일 전용 버튼 표시 및 비표시 함수
 function setControleButton() {
   var buttons = document.getElementById('outer-game-screen').getElementsByTagName('button');
   if(cGameInfo.mobile && cGameInfo.started && !cGameInfo.gameOver) {
@@ -206,6 +231,7 @@ function setControleButton() {
   }
 }
 
+//줌인, 줌아웃 제스쳐 무효화 이벤트 리스너
 function preventZoomInOut(e) {
   e = e.originalEvent || e;
   if (e.scale !== 1) {
@@ -213,14 +239,17 @@ function preventZoomInOut(e) {
   }
 }
 
+//게임아웃 화면 표시
 function goGameOverScreen() {
   document.getElementById('game-over-screen').style.display = "flex";
 }
 
+//게임 재시작
 function restartGame() {
   startPlay();
 }
 
+//초기 화면 표시
 function goStartUp() {
   document.getElementById('start-screen').style.display = "flex";
   document.getElementById('outer-game-screen').style.display = "none";
